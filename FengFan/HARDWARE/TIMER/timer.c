@@ -3,6 +3,7 @@
 #include "usart.h"
 #include "adc.h"
 #include "pid.h"
+extern int ZHONGZHI;
 extern char oledBuf[20];
 extern float angle;;
 extern float voltage;
@@ -27,7 +28,7 @@ void TIM3_Int_Init(void)
 
 
     //设置定时器TIM_TimeBaseInit初始化定时器的时钟基数
-    TIM_TimeBaseStructure.TIM_Period = 4999;
+    TIM_TimeBaseStructure.TIM_Period = 11000-1;
     TIM_TimeBaseStructure.TIM_Prescaler = 7199;
     TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -57,7 +58,16 @@ void TIM3_IRQHandler(void)   //TIM3中断
     //判断是否发生中断
     if(TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
     {
-
+				sprintf(oledBuf, "Error:%02d", (int)angle);	
+        OLED_ShowString(0, 0, (u8*)oledBuf, 16);
+				sprintf(oledBuf, "Angle:%02d", (int)angle);
+        OLED_ShowString(0, 16, (u8*)oledBuf, 16);
+        sprintf(oledBuf, "PWM:%d", pwmpulse);
+        OLED_ShowString(0, 32, (u8*)oledBuf, 16);
+        sprintf(oledBuf, "Tangle:%02d",ZHONGZHI);
+        OLED_ShowString(0, 48, (u8*)oledBuf, 16);
+        OLED_Refresh();
+			
 //       pwmpulse = Position_PID(angle, 40);
 //			 TIM_SetCompare3(TIM4, pwmpulse);	  //TIM4->CCR2=800 limit:0~800
 //清除EXTI线路挂起位
@@ -96,13 +106,13 @@ void TIM2_IRQHandler(void)   //TIM2中断
 {
     if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源
     {
- sprintf(oledBuf, "WelcomeByZJX");
-        OLED_ShowString(16, 0, (u8*)oledBuf, 16);
-        sprintf(oledBuf, "Angle:%0.2f", angle);
+				sprintf(oledBuf, "Error:%02d", (int)angle);	
+        OLED_ShowString(0, 0, (u8*)oledBuf, 16);
+				sprintf(oledBuf, "Angle:%02d", (int)angle);
         OLED_ShowString(0, 16, (u8*)oledBuf, 16);
         sprintf(oledBuf, "PWM:%d", pwmpulse);
         OLED_ShowString(0, 32, (u8*)oledBuf, 16);
-        sprintf(oledBuf, "Voltage:%0.2f",voltage);
+        sprintf(oledBuf, "Tangle:%02d",ZHONGZHI);
         OLED_ShowString(0, 48, (u8*)oledBuf, 16);
         OLED_Refresh();
         TIM_ClearITPendingBit(TIM2, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源

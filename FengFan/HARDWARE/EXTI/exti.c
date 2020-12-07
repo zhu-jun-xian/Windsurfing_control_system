@@ -3,7 +3,8 @@
 #include "key.h"
 #include "delay.h"
 #include "usart.h"
-
+extern int ZHONGZHI;
+extern int pwmpulse;
 //外部中断初始化函数
 void EXTIX_Init(void)
 {
@@ -91,6 +92,26 @@ void EXTI0_IRQHandler(void)
     if(KEY0 == 1)
     {
         LED0 = !LED0;
+			ZHONGZHI=ZHONGZHI-5;
+			if(ZHONGZHI >30){
+			ZHONGZHI=0;
+			}else if(ZHONGZHI <0){ZHONGZHI=30;}
+			switch(ZHONGZHI){
+				case 0:pwmpulse=899;break;
+				case 5:pwmpulse=780;break;
+				case 10:pwmpulse=700;
+				break;
+				case 15:pwmpulse=630;
+				break;
+				case 20:pwmpulse=550;
+				break;
+				case 25:pwmpulse=430;
+				break;
+				case 30:pwmpulse=220;
+				break;
+			};
+	
+		
     }
 
     EXTI_ClearITPendingBit(EXTI_Line0);  //清除EXTI0线路挂起位
@@ -102,6 +123,25 @@ void EXTI1_IRQHandler(void)
     if(KEY1 == 1)
     {
         LED0 = !LED0;
+				ZHONGZHI=ZHONGZHI+5;
+				if(ZHONGZHI >30){
+			ZHONGZHI=0;
+			}else if(ZHONGZHI <0){ZHONGZHI=30;}
+			switch(ZHONGZHI){
+				case 0:pwmpulse=899;break;
+				case 5:pwmpulse=780;break;
+				case 10:pwmpulse=700;
+				break;
+				case 15:pwmpulse=630;
+				break;
+				case 20:pwmpulse=550;
+				break;
+				case 25:pwmpulse=430;
+				break;
+				case 30:pwmpulse=220;
+				break;
+			};
+	
     }
 
     EXTI_ClearITPendingBit(EXTI_Line1);  //清除EXTI0线路挂起位
