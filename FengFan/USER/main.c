@@ -13,15 +13,15 @@
 #include "m5311.h"
 
 
-pid_struct mypid =
-{
-    .KP = 20.0,
-    .KI = 0,
-    .KD = 0,
-    .e0 = 0.0,
-    .e1 = 0.0,
-    .e2 = 0.0
-};
+//pid_struct mypid =
+//{
+//    .KP = 20.0,
+//    .KI = 0,
+//    .KD = 0,
+//    .e0 = 0.0,
+//    .e1 = 0.0,
+//    .e2 = 0.0
+//};
 u16 adcx;
 int pwmpulse;
 float temp;
@@ -57,9 +57,11 @@ int main(void)
     L298N_Init();
     GPIO_ResetBits(GPIOA, GPIO_Pin_4);
     GPIO_SetBits(GPIOA, GPIO_Pin_3);
-    TIM4_PWM_Init(899, 0);	 //不分频,PWM频率=72000000/900=80Khz
+		//分频,PWM频率=72000000/72=1Mhz，计数一次的时间=（1/1Mhz）*（999+1）=1ms
+    TIM4_PWM_Init(999, 71);	 
     //电位器
     Adc_Init();             //ADC初始化
+		PIDParament_Init();    //PID参数初始化
 
     while(1)
     {
@@ -67,18 +69,19 @@ int main(void)
         voltage = (float)adcx * (3.3 / 4096); //获取相应的电压值
         angle = (float)voltage * (360 / 3.3);
         UsartPrintf(USART_DEBUG, "angle:%0.2f\r\n", angle);
-        pwmpulse = Position_PID(angle, 25, mypid);
+			  pid_calc(angle , 1);
+//        pwmpulse = pid_calc(1);
 
-        if(pwmpulse > 800)
-        {
-            pwmpulse = 800;
-        }
-        else if(pwmpulse < 0)
-        {
-            pwmpulse = 0;
-        }
+//        if(pwmpulse > 800)
+//        {
+//            pwmpulse = 800;
+//        }
+//        else if(pwmpulse < 0)
+//        {
+//            pwmpulse = 0;
+//        }
 
-        TIM_SetCompare3(TIM4, pwmpulse);	  //TIM4->CCR2=800 limit:0~800
+        TIM_SetCompare3(TIM4, pid.currpwm);	  //TIM4->CCR2=330 limit:0~330
 
     }
 }

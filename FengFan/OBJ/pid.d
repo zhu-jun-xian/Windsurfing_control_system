@@ -1,13 +1,12 @@
 ..\obj\pid.o: ..\HARDWARE\PID\pid.c
 ..\obj\pid.o: ..\HARDWARE\PID\pid.h
-..\obj\pid.o: ..\HARDWARE\USART\usart.h
-..\obj\pid.o: ..\USER\stm32f10x.h
-..\obj\pid.o: ..\CORE\core_cm3.h
-..\obj\pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-..\obj\pid.o: ..\USER\system_stm32f10x.h
 ..\obj\pid.o: ..\USER\stm32f10x_conf.h
 ..\obj\pid.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
 ..\obj\pid.o: ..\USER\stm32f10x.h
+..\obj\pid.o: ..\CORE\core_cm3.h
+..\obj\pid.o: E:\keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\pid.o: ..\USER\system_stm32f10x.h
+..\obj\pid.o: ..\USER\stm32f10x_conf.h
 ..\obj\pid.o: ..\STM32F10x_FWLib\inc\stm32f10x_bkp.h
 ..\obj\pid.o: ..\STM32F10x_FWLib\inc\stm32f10x_can.h
 ..\obj\pid.o: ..\STM32F10x_FWLib\inc\stm32f10x_cec.h
@@ -30,3 +29,4 @@
 ..\obj\pid.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\pid.o: ..\STM32F10x_FWLib\inc\stm32f10x_wwdg.h
 ..\obj\pid.o: ..\STM32F10x_FWLib\inc\misc.h
+..\obj\pid.o: ..\HARDWARE\USART\usart.h

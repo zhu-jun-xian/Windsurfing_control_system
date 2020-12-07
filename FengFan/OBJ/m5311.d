@@ -3,7 +3,7 @@
 ..\obj\m5311.o: ..\HARDWARE\USART\usart.h
 ..\obj\m5311.o: ..\USER\stm32f10x.h
 ..\obj\m5311.o: ..\CORE\core_cm3.h
-..\obj\m5311.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\m5311.o: E:\keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\m5311.o: ..\USER\system_stm32f10x.h
 ..\obj\m5311.o: ..\USER\stm32f10x_conf.h
 ..\obj\m5311.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
@@ -32,7 +32,7 @@
 ..\obj\m5311.o: ..\STM32F10x_FWLib\inc\misc.h
 ..\obj\m5311.o: ..\SYSTEM\delay\delay.h
 ..\obj\m5311.o: ..\SYSTEM\sys\sys.h
-..\obj\m5311.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-..\obj\m5311.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\m5311.o: E:\keil\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\m5311.o: E:\keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\m5311.o: ..\HARDWARE\LED\led.h
 ..\obj\m5311.o: ..\HARDWARE\WDG\wdg.h
