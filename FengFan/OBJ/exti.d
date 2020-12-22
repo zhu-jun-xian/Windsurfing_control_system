@@ -33,4 +33,6 @@
 ..\obj\exti.o: ..\HARDWARE\LED\led.h
 ..\obj\exti.o: ..\HARDWARE\KEY\key.h
 ..\obj\exti.o: ..\SYSTEM\delay\delay.h
+..\obj\exti.o: ..\HARDWARE\OLED\oled.h
+..\obj\exti.o: E:\keil\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\exti.o: ..\HARDWARE\USART\usart.h

@@ -5,10 +5,15 @@
 #include "pid.h"
 extern int ZHONGZHI;
 extern char oledBuf[20];
-extern float angle;;
+extern float angle;extern float angle1;
 extern float voltage;
 extern float adcx;
-extern int pwmpulse;
+extern int flag;
+extern signed long pwmpulse;
+extern signed long pwmpulse1;
+extern float x,y,z;
+extern int flag1;
+float error1;
 //通用定时器中断初始化
 //这里时钟选择为APB1的2倍，而APB1为36M
 //arr：自动重装值。
@@ -28,7 +33,7 @@ void TIM3_Int_Init(void)
 
 
     //设置定时器TIM_TimeBaseInit初始化定时器的时钟基数
-    TIM_TimeBaseStructure.TIM_Period = 11000-1;
+    TIM_TimeBaseStructure.TIM_Period = 999;
     TIM_TimeBaseStructure.TIM_Prescaler = 7199;
     TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -58,14 +63,43 @@ void TIM3_IRQHandler(void)   //TIM3中断
     //判断是否发生中断
     if(TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
     {
-				sprintf(oledBuf, "Error:%02d", (int)angle);	
-        OLED_ShowString(0, 0, (u8*)oledBuf, 16);
-				sprintf(oledBuf, "Angle:%02d", (int)angle);
+						if(angle1>=0){
+					angle=angle1;
+					}
+					else{
+					angle=-angle1;
+					}
+//					UsartPrintf(USART_DEBUG, "angle:%0.2f,pwmpulse: %d,pwmpulse1: %d\r\n", angle,pwmpulse,pwmpulse1);
+				
+				sprintf(oledBuf, "Angle:%0.2f",angle);
         OLED_ShowString(0, 16, (u8*)oledBuf, 16);
         sprintf(oledBuf, "PWM:%d", pwmpulse);
         OLED_ShowString(0, 32, (u8*)oledBuf, 16);
-        sprintf(oledBuf, "Tangle:%02d",ZHONGZHI);
+					switch(flag1){
+						case 0:
+							sprintf(oledBuf, "WELCOME");	
+        OLED_ShowString(0, 0, (u8*)oledBuf, 16);sprintf(oledBuf, "STOP mode");
         OLED_ShowString(0, 48, (u8*)oledBuf, 16);
+        OLED_Refresh(); break;
+						case 1:
+							if(angle>ZHONGZHI){
+								error1=angle-ZHONGZHI;
+							}else if(angle<ZHONGZHI){
+							error1=ZHONGZHI-angle;
+							}else{
+							error1=angle-ZHONGZHI;
+							}
+							sprintf(oledBuf, "ErrA:%f", error1);	
+        OLED_ShowString(0, 0, (u8*)oledBuf, 16);sprintf(oledBuf, "TarAngle:%02d",ZHONGZHI);
+        OLED_ShowString(0, 48, (u8*)oledBuf, 16);
+        OLED_Refresh(); break;
+								case 2:
+									sprintf(oledBuf, "WELCOME");	
+        OLED_ShowString(0, 0, (u8*)oledBuf, 16);sprintf(oledBuf, "POWER mode");
+        OLED_ShowString(0, 48, (u8*)oledBuf, 16);
+        OLED_Refresh(); break;
+					}
+        
         OLED_Refresh();
 			
 //       pwmpulse = Position_PID(angle, 40);
@@ -106,15 +140,43 @@ void TIM2_IRQHandler(void)   //TIM2中断
 {
     if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源
     {
-				sprintf(oledBuf, "Error:%02d", (int)angle);	
-        OLED_ShowString(0, 0, (u8*)oledBuf, 16);
-				sprintf(oledBuf, "Angle:%02d", (int)angle);
-        OLED_ShowString(0, 16, (u8*)oledBuf, 16);
-        sprintf(oledBuf, "PWM:%d", pwmpulse);
-        OLED_ShowString(0, 32, (u8*)oledBuf, 16);
-        sprintf(oledBuf, "Tangle:%02d",ZHONGZHI);
-        OLED_ShowString(0, 48, (u8*)oledBuf, 16);
-        OLED_Refresh();
+//			 UsartPrintf(USART_DEBUG, " PID is start\r\n");
+switch(flag1){
+	case 1:
+		flag=4096*(360-ZHONGZHI);
+			pwmpulse1 = PID_Control(flag/360);
+			if(pwmpulse1 > 35999)
+        {
+            pwmpulse = 35999;
+        }else if(pwmpulse1<-35999){
+							pwmpulse = 0;
+				}
+        else if(pwmpulse1 < 0)
+        {
+          if((-pwmpulse1)%2==0){
+						pwmpulse = (pwmpulse1/2)+18000;
+					}else{
+						pwmpulse--;
+							pwmpulse = (pwmpulse1/2)+18000;
+					}
+        }else {
+					if(pwmpulse1%2==0){
+						pwmpulse = (pwmpulse1/2)+18000;
+					}else{
+						pwmpulse++;
+							pwmpulse = (pwmpulse1/2)+18000;
+					}
+					
+				}
+			TIM_SetCompare3(TIM4,pwmpulse);	  //TIM4->CCR2=800 limit:0~899
+				break;
+	case 0: 	 pwmpulse = 0;TIM_SetCompare3(TIM4,pwmpulse);	 //TIM4->CCR2=800 limit:0~899
+				break;
+				case 2:	 pwmpulse = 35999;TIM_SetCompare3(TIM4,pwmpulse);	  //TIM4->CCR2=800 limit:0~899
+				break;
+}
+//			 UsartPrintf(USART_DEBUG, " PID is end\r\n");
+		
         TIM_ClearITPendingBit(TIM2, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源
 
     }

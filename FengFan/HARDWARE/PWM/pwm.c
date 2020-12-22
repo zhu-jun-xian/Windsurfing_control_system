@@ -46,7 +46,7 @@ void TIM4_PWM_Init(u16 arr,u16 psc)
 	//初始化TIM4 Channe3 PWM模式	 
 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2; //选择定时器模式:TIM脉冲宽度调制模式2
  	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //比较输出使能
-	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; //输出极性:TIM输出比较极性高
+	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low; //输出极性:TIM输出比较极性高
 	TIM_OC3Init(TIM4, &TIM_OCInitStructure);  //根据T指定的参数初始化外设TIM4 OC3
 
 	TIM_OC3PreloadConfig(TIM4, TIM_OCPreload_Enable);  //使能TIM4_CH3预装载寄存器

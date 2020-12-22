@@ -138,7 +138,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\OLED;..\HARDWARE\KEY;..\HARDWARE\PWM;..\HARDWARE\EXTI;..\HARDWARE\TIMER;..\HARDWARE\PID;..\HARDWARE\ADC;..\HARDWARE\USART;..\HARDWARE\M5311;..\HARDWARE\WDG</IncludePath>
+              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\OLED;..\HARDWARE\KEY;..\HARDWARE\PWM;..\HARDWARE\EXTI;..\HARDWARE\TIMER;..\HARDWARE\PID;..\HARDWARE\ADC;..\HARDWARE\USART;..\HARDWARE\M5311;..\HARDWARE\WDG;..\HARDWARE\IIC;..\HARDWARE\protocol;..\HARDWARE\protocol</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -417,11 +417,6 @@
               <FilePath>..\HARDWARE\LED\led.c</FilePath>
             </File>
             <File>
-              <FileName>M5311.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\M5311\M5311.c</FilePath>
-            </File>
-            <File>
               <FileName>wdg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\WDG\wdg.c</FilePath>
@@ -430,6 +425,21 @@
               <FileName>stm32f10x_iwdg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\WDG\stm32f10x_iwdg.c</FilePath>
+            </File>
+            <File>
+              <FileName>adxl345.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\ADXL345\adxl345.c</FilePath>
+            </File>
+            <File>
+              <FileName>iic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\IIC\iic.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\usart\usart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -470,11 +480,6 @@
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\ADC\adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\USART\usart.c</FilePath>
             </File>
           </Files>
         </Group>
