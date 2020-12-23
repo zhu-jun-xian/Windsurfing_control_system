@@ -7,6 +7,7 @@
 extern int ZHONGZHI;
 extern int pwmpulse;
 extern int flag1;
+extern int powerflag;
 //外部中断初始化函数
 void EXTIX_Init(void)
 {
@@ -125,7 +126,7 @@ void EXTI1_IRQHandler(void)
     if(KEY1 == 1)
     {
 			
-			UsartPrintf(USART_DEBUG, "STOP mode\r\n");OLED_Clear();
+			UsartPrintf(USART_DEBUG, "STOP mode\r\n");
 			flag1=0;
         LED0 = !LED0;
 				
@@ -154,9 +155,9 @@ void EXTI2_IRQHandler(void)
 
     if(KEY1 == 1)
     {
-			UsartPrintf(USART_DEBUG, "PWM mode\r\n");OLED_Clear();
+			UsartPrintf(USART_DEBUG, "PWM mode\r\n");
 			flag1=1;
-        LED0 = !LED0;
+		LED0 = !LED0;
 				ZHONGZHI=ZHONGZHI+5;
 				if(ZHONGZHI >40){
 			ZHONGZHI=20;
@@ -178,8 +179,12 @@ void EXTI9_5_IRQHandler(void)
     }
 
     if(KEY4 == 0)
-    {UsartPrintf(USART_DEBUG, "POWER mode\r\n");
-flag1=2;OLED_Clear();
+    {UsartPrintf(USART_DEBUG, "POWER mode\r\n");	powerflag++;
+			if(powerflag>4){
+			powerflag=0;
+			}
+        
+flag1=2;
         LED0 = !LED0;
         EXTI_ClearITPendingBit(EXTI_Line6);    //清除LINE5上的中断标志位
     }

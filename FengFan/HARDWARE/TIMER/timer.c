@@ -13,6 +13,7 @@ extern signed long pwmpulse;
 extern signed long pwmpulse1;
 extern float x,y,z;
 extern int flag1;
+extern int powerflag;
 float error1;
 //通用定时器中断初始化
 //这里时钟选择为APB1的2倍，而APB1为36M
@@ -78,7 +79,7 @@ void TIM3_IRQHandler(void)   //TIM3中断
 					switch(flag1){
 						case 0:
 							sprintf(oledBuf, "WELCOME");	
-        OLED_ShowString(0, 0, (u8*)oledBuf, 16);sprintf(oledBuf, "STOP mode");
+        OLED_ShowString(0, 0, (u8*)oledBuf, 16);sprintf(oledBuf, "STOPmodeRunning");
         OLED_ShowString(0, 48, (u8*)oledBuf, 16);
         OLED_Refresh(); break;
 						case 1:
@@ -90,12 +91,12 @@ void TIM3_IRQHandler(void)   //TIM3中断
 							error1=angle-ZHONGZHI;
 							}
 							sprintf(oledBuf, "ErrA:%f", error1);	
-        OLED_ShowString(0, 0, (u8*)oledBuf, 16);sprintf(oledBuf, "TarAngle:%02d",ZHONGZHI);
+        OLED_ShowString(0, 0, (u8*)oledBuf, 16);sprintf(oledBuf, "Target Angle:%02d",ZHONGZHI);
         OLED_ShowString(0, 48, (u8*)oledBuf, 16);
         OLED_Refresh(); break;
 								case 2:
 									sprintf(oledBuf, "WELCOME");	
-        OLED_ShowString(0, 0, (u8*)oledBuf, 16);sprintf(oledBuf, "POWER mode");
+        OLED_ShowString(0, 0, (u8*)oledBuf, 16);sprintf(oledBuf, "POWERmodeRuning");
         OLED_ShowString(0, 48, (u8*)oledBuf, 16);
         OLED_Refresh(); break;
 					}
@@ -172,7 +173,15 @@ switch(flag1){
 				break;
 	case 0: 	 pwmpulse = 0;TIM_SetCompare3(TIM4,pwmpulse);	 //TIM4->CCR2=800 limit:0~899
 				break;
-				case 2:	 pwmpulse = 35999;TIM_SetCompare3(TIM4,pwmpulse);	  //TIM4->CCR2=800 limit:0~899
+				case 2:	 
+					switch(powerflag){
+							case 0: 	 pwmpulse = 0;break;
+						case 4:pwmpulse = 35999;break;
+						case 1:pwmpulse = 18000;break;
+						case 2:pwmpulse = 22974;break;
+						case 3:pwmpulse = 30302;break;
+					}
+					TIM_SetCompare3(TIM4,pwmpulse);	  //TIM4->CCR2=800 limit:0~899
 				break;
 }
 //			 UsartPrintf(USART_DEBUG, " PID is end\r\n");

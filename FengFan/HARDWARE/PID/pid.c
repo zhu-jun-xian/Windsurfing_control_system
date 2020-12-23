@@ -66,7 +66,7 @@ long PID_Control (s32 SpeedTag)
 	PID.errNow = spdNow-spdTag ;//计算并写入速度误差
 	 PID.kp      = 21;             //写入比例系数
    PID.ki      = 0.35;              //写入积分系数
-   PID.kd      = 0;              //写入微分系数
+   PID.kd      = 2;              //写入微分系数
 	
 	PID_IncrementMode();
 	control = PID.Out;

@@ -13,6 +13,7 @@
 #include "m5311.h"
 u16 adcx;
 float error;
+int powerflag;
 signed long pwmpulse;
 signed long pwmpulse1;
 signed long pwm=0;
@@ -42,11 +43,11 @@ int blance(float Angle)
 
 int main(void)
 {
-	
+	powerflag=0;
 ZHONGZHI=15;
 	pwmpulse1=0;
 	pwmpulse=0;
-	flag1=0;
+	flag1=1;
 	flag=0;
     delay_init();	    	 //延时函数初始化
     Usart1_Init(115200);//debug串口
